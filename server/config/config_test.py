@@ -1,7 +1,7 @@
 import logging
 import os.path as path
 import unittest
-from config import Pipeline,BuildStage
+from config import Pipeline, BuildStage
 
 
 class PipelineParserTestCase(unittest.TestCase):
@@ -13,14 +13,8 @@ class PipelineParserTestCase(unittest.TestCase):
 
     def testParsing(self):
         p = self.pipeline
-        for x in p.build_stages:
-            for y in x.images:
-                logging.info(y.file)
-            logging.info(x.images)
-            logging.info(x.type)
-            logging.info(x.pre)
-            logging.info(x.post)
-            logging.info(x.name)
+        for x in p.stages:
+            print(x.name,x.type,x.status)
 
 
 if __name__ == "__main__":

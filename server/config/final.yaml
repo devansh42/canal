@@ -9,7 +9,7 @@ build_stage:
     pre:    #runs specified command before build script,runs outside container, generic attribute 
         - cmd1
         - cmd2
-    on: #event driven commands, run outside containers, generic
+    status: #event driven commands, run outside containers, generic
         pass:
             - cmd1
         fail:
@@ -117,6 +117,5 @@ stages:
     - build_stage 
     - test_stage
     - compose-test-stage
-  
 
 continue: manual or auto #Stage continuation method, can be auto or manual    
