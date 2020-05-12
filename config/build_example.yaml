@@ -1,0 +1,109 @@
+# Yaml file for example build stage
+
+build_stage:
+    type: build #Specifies type of stage, generic attribute, R
+    agent: agent-to-run-build-on #default is the local one, generic attribute
+    post:    #runs specified command after,runs outside container, generic attribute
+        - cmd1
+        - cmd2 
+    pre:    #runs specified command before build script,runs outside container, generic attribute 
+        - cmd1
+        - cmd2
+    on: #event driven commands, run outside containers, generic
+        pass:
+            - cmd1
+        fail:
+            - cmd2    
+    essential: false #means this stage can fail default is true, generic
+    continue: manual or auto #decides whether pipeline continues manually or auto
+            #manual means user will prompt to continue 
+            #default is "auto", generic
+            #using it at stage level will orverride pipeline wide behaviour
+            
+            
+    images:
+        image-with-commands-and-file: #This feature is specific to testing stages only
+            tag: latest
+            runargs:
+                - args to run docker container
+            args:
+                - some arguments
+            file: DockerfilePath 
+            commands:               #In this case first image is made from docker file and then folllowing commands can be run in docker container 
+                - exe1
+                - exe2
+                - exe3    
+        
+        image-without-docker-file:
+            tag: latest
+            args:
+                - some args
+            commands: #Docker image is build on basis of these command, internally we make a dockerfile from this commands
+                - cmd1
+                - cmd2
+                - cmd3
+                
+        demo-image-name:
+            tag: latest
+            args:
+                - build time argument1
+                - build time argument2
+            file: Dockerfile
+                
+        image_name-tag:
+            tag: test
+            file: build/Dockerfile
+
+
+test_stage: #Stage illusartes unit tests 
+    type: test #Specifies type of stage, generic attribute, R
+    agent: agent-to-run-build-on #default is the local one, generic attribute
+    post:    #runs specified command after,runs outside container, generic attribute
+        - cmd1
+        - cmd2 
+    pre:    #runs specified command before build script,runs outside container, generic attribute 
+        - cmd1
+        - cmd2
+    images:
+        image-with-commands-and-file: #This feature is specific to testing stages only
+            tag: latest
+            runargs:
+                - args to run docker container
+            args:
+                - some arguments
+            file: DockerfilePath 
+            commands:               #In this case first image is made from docker file and then folllowing commands can be run in docker container 
+                - exe1
+                - exe2
+                - exe3    
+      
+
+
+compose-test-stage: #Stage illusartes integration 
+    type: test #Specifies type of stage, generic attribute, R
+    agent: agent-to-run-build-on #default is the local one, generic attribute
+    post:    #runs specified command after,runs outside container, generic attribute
+        - cmd1
+        - cmd2 
+    pre:    #runs specified command before build script,runs outside container, generic attribute 
+        - cmd1
+        - cmd2
+    compose:
+        file: compose-file-path
+        args: 
+            - compose-arg-1 e.g. --tls
+        runargs: 
+            - args to run with "up" subcommand
+            - e.g. -d    
+
+arbitrary-stage:
+    type: any #Specifies type of stage, generic attribute, R
+    agent: agent-to-run-build-on #default is the local one, generic attribute
+    post:    #runs specified command after,runs outside container, generic attribute
+        - cmd1
+        - cmd2 
+    pre:    #runs specified command before build script,runs outside container, generic attribute 
+        - cmd1
+        - cmd2
+    commands:
+        - commands to execute            

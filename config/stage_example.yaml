@@ -1,0 +1,13 @@
+
+# Example Yaml file to show how stages work
+
+# build,test and deploy are generic stages
+# user can also introduce arbitrary stages
+
+stages:
+    - build_stage 
+    - test_stage
+    - compose-test-stage
+  
+
+continue: manual or auto #Stage continuation method, can be auto or manual    
